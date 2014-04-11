@@ -24,7 +24,9 @@ define Package/tracebox
 endef
 
 define Package/tracebox/description
-  TODO
+  Tracebox is a tool that allows to detect middleboxes on any paths, i.e.,
+between a source and any destination. Tracebox can be viewed as a tool similar
+to traceroute as it uses ICMP replies to identify changes in the packets.
 endef
 
 CONFIGURE_VARS += \
