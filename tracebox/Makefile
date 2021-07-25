@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=tracebox
-PKG_VERSION:=0.2
+PKG_VERSION:=0.4.4
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
@@ -10,17 +10,17 @@ PKG_SOURCE_URL:=git@github.com:tracebox/tracebox.git
 PKG_MAINTAINER:=Gregory Detal <gregory.detal@uclouvain.be>
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=v0.2
+PKG_SOURCE_VERSION:=v0.4.4
 
-include $(INCLUDE_DIR)/uclibc++.mk
+PKG_FIXUP:=autoreconf
+
 include $(INCLUDE_DIR)/package.mk
-include $(INCLUDE_DIR)/autotools.mk
 
 define Package/tracebox
   SECTION:=net
   CATEGORY:=Network
   TITLE:=tracebox
-  DEPENDS:=+liblua +libpcap +libpthread +librt $(CXX_DEPENDS)
+  DEPENDS:=+liblua +libpcap +libpthread +librt +curl +libjson-c +libnetfilter-queue +libstdcpp
 endef
 
 define Package/tracebox/description
@@ -34,20 +34,13 @@ CONFIGURE_VARS += \
 	ax_header_version_match=yes
 
 CONFIGURE_ARGS += \
-	--with-libpcap=$(STAGING_DIR)/usr
+	--enable-sniffer --enable-curl --with-libpcap="$(STAGING_DIR)/usr/include/"
 
-EXTRA_CPPFLAGS += -fpermissive
+EXTRA_CPPFLAGS += \
+	-fpermissive -Wno-variadic-macros
 
-define Build/Prepare
-	$(call Build/Prepare/Default)
-	touch $(PKG_BUILD_DIR)/config.h.in
-endef
-
-define Build/Configure
-	(cd $(PKG_BUILD_DIR); AUTOHEADER=true autoreconf --install)
-	$(call Build/Configure/Default)
-endef
-
+TARGET_CFLAGS += \
+	-D_GNU_SOURCE
 
 define Package/tracebox/install
 	$(INSTALL_DIR) $(1)/usr/sbin
