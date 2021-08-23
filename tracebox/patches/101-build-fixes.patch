@@ -1,15 +1,3 @@
-diff --git a/noinst/libcrafter/libcrafter/configure.ac b/noinst/libcrafter/libcrafter/configure.ac
-index 9ccdc26..05319be 100644
---- a/noinst/libcrafter/libcrafter/configure.ac
-+++ b/noinst/libcrafter/libcrafter/configure.ac
-@@ -35,7 +35,6 @@ AC_ARG_WITH(libpcap,
- 	PCAPINC="-I$withval -I$withval/bpf"
- 	PCAPLIB="-L$withval -lpcap"
-      elif test -f $withval/include/pcap.h -a \
--	       -f $withval/include/net/bpf.h -a \
- 	       -f $withval/lib/libpcap.a; then
- 	owd=`pwd`
- 	if cd $withval; then withval=`pwd`; cd $owd; fi
 diff --git a/noinst/libcrafter/libcrafter/crafter/Fields/NumericFields.cpp b/noinst/libcrafter/libcrafter/crafter/Fields/NumericFields.cpp
 index 86b77e6..7de1eb7 100644
 --- a/noinst/libcrafter/libcrafter/crafter/Fields/NumericFields.cpp
